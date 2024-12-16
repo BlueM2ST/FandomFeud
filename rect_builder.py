@@ -1,6 +1,8 @@
 import pygame
 
 
+# unit for scale
+
 class RectBuilder:
     def __init__(self, surface, rect=pygame.Rect(0, 0, 0, 0)):
         self.width = rect.width
