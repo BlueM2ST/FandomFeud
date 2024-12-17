@@ -17,7 +17,7 @@ class Button(ScreenObject):
         self.connection.append(self)
         self.textBox:TextBox
         if self.text:
-            self.textBox = TextBox(self.name+"1", self.width, self.height, self.text)
+            self.textBox = TextBox(self.name+"1", posX, posY, self.text)
 
 
     def draw(self, screen, initX, initY):
