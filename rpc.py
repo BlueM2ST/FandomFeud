@@ -107,10 +107,8 @@ class RPCClient:
 
     def is_connected(self):
         try:
-            logging.info("Checking connection")
             self.__sock.sendall(b'test')
             success = 'success' == self.__sock.recv(SIZE).decode()
-            logging.info(f"Connection status: {success}")
             return success
         except:
             return False
@@ -119,9 +117,8 @@ class RPCClient:
         try:
             self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.__sock.connect(self.__address)
-        except EOFError as e:
-            logging.info(e)
-            raise Exception('Client was not able to connect.')
+        except Exception:
+            print("could not connect")
 
     def disconnect(self):
         try:
