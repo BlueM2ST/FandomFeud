@@ -57,5 +57,5 @@ class ScreenObject:
     def iterTree(self, fromNode) -> list:
         for node in fromNode.getChildren():
             self.nodes.append(node)
-            if node.getChildren() and node != fromNode:
+            if node.getChildren():
                 self.iterTree(node)
