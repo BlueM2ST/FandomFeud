@@ -4,6 +4,7 @@ from rpc import RPCServer
 from button import Button
 from colorRect import ColorRect
 from textBox import TextBox
+from threading import Thread
 
 
 pygame.init()
@@ -20,7 +21,7 @@ windowSize = (1280, 720)
 screen = pygame.display.set_mode(windowSize, pygame.RESIZABLE)
 pygame.display.set_caption('Halcon Feud')
 
-server = RPCServer()
+server = RPCServer('127.0.0.1', 46980)
 
 
 root = ColorRect("root", 0, 0, windowSize[0], windowSize[1], (255, 255, 255))
@@ -55,7 +56,13 @@ def clientShowSoreboard():
     print("showing scoreboard")
 
 
+def clientShowAnswer(id:str):
+    pass
+
+
 root.addChild(TextBox("fps", 10, 10, "0"))
 server.registerMethod(clientShowSoreboard)
-server.start()
+server.registerMethod(clientShowAnswer)
+server_thread = Thread(target = server.run, daemon=True)
+server_thread.start()
 mainLoop()
