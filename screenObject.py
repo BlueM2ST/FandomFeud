@@ -36,16 +36,25 @@ class ScreenObject:
         self.getChildren().append(node)
         node.parent = self
     
+    def getChild(self, name:str):
+        for child in self.getChildren():
+            if child.name == name:
+                return child
+    
     def getChildren(self):
         return self.children
     
     def getParent(self):
         return self.parent
 
+    # will also remove all children
     def free(self):
         for child in self.getChildren():
             child.free()
-        self.parent.getChildren().remove(self)
+        try:
+            self.parent.getChildren().remove(self)
+        except ValueError:
+            print("parent " + self.parent + "has no child: " + self.name)
     
     def getAllChilden(self):
         self.iterTree(self)
@@ -53,8 +62,8 @@ class ScreenObject:
         self.nodes = []
         return nodes
 
-    # return an array of all child items
-    def iterTree(self, fromNode) -> list:
+    # populate an array of all child items recursively
+    def iterTree(self, fromNode):
         for node in fromNode.getChildren():
             self.nodes.append(node)
             if node.getChildren():
