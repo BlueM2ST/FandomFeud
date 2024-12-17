@@ -32,9 +32,16 @@ class ScreenObject:
         # return the connected function call as string, as well as a ref to this button
         return []
 
+
+    # called when a node is added to the tree
+    def addedToTree(self):
+        pass
+
+
     def addChild(self, node):
         self.getChildren().append(node)
         node.parent = self
+        node.addedToTree()
     
     def getChild(self, name:str):
         for child in self.getChildren():
@@ -54,7 +61,7 @@ class ScreenObject:
         try:
             self.parent.getChildren().remove(self)
         except ValueError:
-            print("parent " + self.parent + "has no child: " + self.name)
+            print("parent " + self.parent + "has no child " + self.name)
     
     def getAllChilden(self):
         self.iterTree(self)
