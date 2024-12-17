@@ -8,6 +8,9 @@ class ScreenObject:
         self.posY = posY
         self.width = width
         self.height = height
+        self.children = []
+        self.parent = None
+        self.nodes = []
 
 
     def draw(self, screen, initX:int, initY:int):
@@ -28,3 +31,31 @@ class ScreenObject:
     def onClick(self):
         # return the connected function call as string, as well as a ref to this button
         return []
+
+    def addChild(self, node):
+        self.getChildren().append(node)
+        node.parent = self
+    
+    def getChildren(self):
+        return self.children
+    
+    def getParent(self):
+        return self.parent
+
+    def free(self):
+        for child in self.getChildren():
+            child.free()
+        self.parent.getChildren().remove(self)
+    
+    def getAllChilden(self):
+        self.iterTree(self)
+        nodes = self.nodes
+        self.nodes = []
+        return nodes
+
+    # return an array of all child items
+    def iterTree(self, fromNode) -> list:
+        for node in fromNode.getChildren():
+            self.nodes.append(node)
+            if node.getChildren() and node != fromNode:
+                self.iterTree(node)

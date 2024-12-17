@@ -20,7 +20,10 @@ windowSize = (1280, 720)
 screen = pygame.display.set_mode(windowSize, pygame.RESIZABLE)
 pygame.display.set_caption('Halcon Feud')
 
-screenObjects:list = []
+root = ColorRect("root", 0, 0, windowSize[0], windowSize[1], (255, 255, 255))
+
+currentScene:str = "root"
+
 
 def mainLoop():
     while True:
@@ -37,14 +40,14 @@ def mainLoop():
                 sys.exit()
             # handle mouse clicks
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                for screenObj in screenObjects:
-                    if screenObj.rect.collidepoint(event.pos):
-                        action = screenObj.onClick()
+                for node in root.getAllChilden():
+                    if node.rect.collidepoint(event.pos):
+                        action = node.onClick()
                         if action:
                             connections[action[0]](action[1])
         # draw/redraw objects on screen
-        for screenObj in screenObjects:
-            screenObj.draw(screen, windowSize[0], windowSize[1])
+        for node in root.getAllChilden():
+            node.draw(screen, windowSize[0], windowSize[1])
         pygame.display.flip()
 
 
@@ -61,7 +64,7 @@ def hostCreateControlPanel():
             y = 50
         y += 120
         for object in hostCreateAnswerSlot(str(i), x, y, w, h):
-            screenObjects.append(object)
+            root.addChild(object)
 
 
 def hostCreateAnswerSlot(id:str, x:int, y:int, w:int, h:int) -> list:
@@ -78,4 +81,5 @@ def hostAnswerButtonClicked(button:Button):
 # connects button clicks to a function
 connections = {"hostAnswerButtonClicked": hostAnswerButtonClicked}
 hostCreateControlPanel()
+root.getAllChilden()
 mainLoop()

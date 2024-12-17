@@ -11,6 +11,9 @@ class ColorRect(ScreenObject):
         self.width = width
         self.height = height
         self.color = color
+        self.children = []
+        self.parent = None
+        self.nodes = []
     
     def draw(self, screen, initX, initY):
         # draw button background

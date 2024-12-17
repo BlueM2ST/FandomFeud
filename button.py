@@ -18,6 +18,9 @@ class Button(ScreenObject):
         self.textBox:TextBox
         if self.text:
             self.textBox = TextBox(self.name+"text", posX, posY, self.text)
+        self.children = []
+        self.parent = None
+        self.nodes = []
 
 
     def draw(self, screen, initX:int, initY:int):

@@ -15,6 +15,9 @@ class TextBox(ScreenObject):
         self.height = 0
         self.text = text
         self.rect = Rect(0, 0, 0, 0)
+        self.children = []
+        self.parent = None
+        self.nodes = []
 
 
     def draw(self, screen, initX:int, initY:int):
