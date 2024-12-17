@@ -20,7 +20,7 @@ class Button(ScreenObject):
             self.textBox = TextBox(self.name+"text", posX, posY, self.text)
 
 
-    def draw(self, screen, initX, initY):
+    def draw(self, screen, initX:int, initY:int):
         # draw button background
         self.rect = draw.rect(screen, self.color, (self.scale(screen, initX, initY)), 0)
         # if text, draw text on top of background

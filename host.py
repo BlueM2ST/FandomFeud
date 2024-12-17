@@ -64,17 +64,18 @@ def hostCreateControlPanel():
             screenObjects.append(object)
 
 
-def hostCreateAnswerSlot(id:str, x, y, w, h) -> list:
+def hostCreateAnswerSlot(id:str, x:int, y:int, w:int, h:int) -> list:
     button = Button("button" + id, x, y, w/3, h, "show", (150, 150, 150), ["hostAnswerButtonClicked"])
     background = ColorRect("bg" + id, x + w/3, y, w, h, (120, 120, 120))
     answer = TextBox("textBox" + id, x + w/3, y, "some answer here" + button.name)
     return [background, button, answer]
 
 
-def hostAnswerButtonClicked(button:str):
+def hostAnswerButtonClicked(button:Button):
     print("clicked on " + button.name)
 
 
+# connects button clicks to a function
 connections = {"hostAnswerButtonClicked": hostAnswerButtonClicked}
 hostCreateControlPanel()
 mainLoop()

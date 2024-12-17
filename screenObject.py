@@ -10,13 +10,13 @@ class ScreenObject:
         self.height = height
 
 
-    def draw(self, screen, initX, initY):
+    def draw(self, screen, initX:int, initY:int):
         # scale position and size with screen size
         x, y, w, h = self.scale(screen, initX, initY)
     
 
     # scale the position and dimensions based on original positioning and new screen sizes
-    def scale(self, screen, initX, initY):
+    def scale(self, screen, initX:int, initY:int):
         x = self.posX * (screen.get_width() / initX)
         y = self.posY * (screen.get_height() / initY)
         w = self.width * (screen.get_width() / initX)

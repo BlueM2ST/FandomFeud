@@ -17,7 +17,7 @@ class TextBox(ScreenObject):
         self.rect = Rect(0, 0, 0, 0)
 
 
-    def draw(self, screen, initX, initY):
+    def draw(self, screen, initX:int, initY:int):
         # scale with screen size
         x, y, w, h = self.scale(screen, initX, initY)
         # if text, draw text on top of background
