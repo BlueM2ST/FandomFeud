@@ -1,8 +1,10 @@
 
 import pygame
 import sys
-import button
+from button import Button
 from colorRect import ColorRect
+from textBox import TextBox
+
 
 pygame.init()
 
@@ -47,9 +49,26 @@ def mainLoop():
 
 
 def hostCreateControlPanel():
-    textButton = button.Button("answerButton1", 100, 100, 100, 100, "testing", connection=["hostAnswerButtonClicked"])
-    screenObjects.append(textButton)
-    screenObjects.append(ColorRect("Test rect", 200, 200, 100, 100, (255, 255, 0)))
+    # TODO: clean up this math
+    x = 100
+    y = 50
+    w = 300
+    h = 100
+    for i in range(8):
+        if i >= 4:
+            x = 600
+        if i == 4:
+            y = 50
+        y += 120
+        for object in hostCreateAnswerSlot(str(i), x, y, w, h):
+            screenObjects.append(object)
+
+
+def hostCreateAnswerSlot(id:str, x, y, w, h) -> list:
+    button = Button("button" + id, x, y, w/3, h, "show", (150, 150, 150), ["hostAnswerButtonClicked"])
+    background = ColorRect("bg" + id, x + w/3, y, w, h, (120, 120, 120))
+    answer = TextBox("textBox" + id, x + w/3, y, "some answer here" + button.name)
+    return [background, button, answer]
 
 
 def hostAnswerButtonClicked(button:str):
