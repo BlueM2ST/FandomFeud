@@ -1,5 +1,6 @@
 
 
+# base class for all objects that show on the screen
 class ScreenObject:
     def __init__(self, name:str, posX:int, posY:int, width:int, height:int):
         self.name = name
@@ -14,6 +15,7 @@ class ScreenObject:
         x, y, w, h = self.scale(screen, initX, initY)
     
 
+    # scale the position and dimensions based on original positioning and new screen sizes
     def scale(self, screen, initX, initY):
         x = self.posX * (screen.get_width() / initX)
         y = self.posY * (screen.get_height() / initY)
