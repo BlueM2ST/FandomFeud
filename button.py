@@ -15,23 +15,22 @@ class Button(ScreenObject):
         self.color = color
         self.connection = connection
         self.connection.append(self)
-        self.textBox:TextBox
-        if self.text:
-            self.textBox = TextBox(self.name+"text", posX, posY, self.text)
         self.children = []
         self.parent = None
         self.nodes = []
+        if self.text:
+            self.addChild(TextBox(self.name+"text", posX, posY, self.text))
 
 
     def draw(self, screen, initX:int, initY:int):
         # draw button background
         self.rect = draw.rect(screen, self.color, (self.scale(screen, initX, initY)), 0)
-        # if text, draw text on top of background
-        if self.text:
-            self.textBox.draw(screen, initX, initY)
 
 
     # call this when the button is pressed
     def onClick(self):
         # return the connected function call as string, as well as a ref to this button
         return self.connection
+
+    def setText(self, text):
+        self.getChild(self.name + "text").setText(text)
