@@ -87,9 +87,8 @@ def hostAnswerButtonClicked(button:Button):
 
 
 def hostConnectionButtonClicked(button:Button):
-    if server.is_connected():
+    if server.connect():
         button.free()
-    server.connect()
 
 
 # connects button clicks to a function
