@@ -17,14 +17,12 @@ class Button(ScreenObject):
         self.connection.append(self)
         self.textBox:TextBox
         if self.text:
-            self.textBox = TextBox(self.name+"1", posX, posY, self.text)
+            self.textBox = TextBox(self.name+"text", posX, posY, self.text)
 
 
     def draw(self, screen, initX, initY):
-        # scale with screen size
-        x, y, w, h = self.scale(screen, initX, initY)
         # draw button background
-        self.rect = draw.rect(screen, self.color, (x, y, w, h), 0)
+        self.rect = draw.rect(screen, self.color, (self.scale(screen, initX, initY)), 0)
         # if text, draw text on top of background
         if self.text:
             self.textBox.draw(screen, initX, initY)
