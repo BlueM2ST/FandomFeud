@@ -117,6 +117,8 @@ class RPCClient:
         try:
             self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.__sock.connect(self.__address)
+            print("connected successfully")
+            return True
         except Exception:
             print("could not connect")
 
