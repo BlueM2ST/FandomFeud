@@ -1,35 +1,36 @@
 
-from pygame import Rect, font, draw
+from pygame import draw
+from screenObject import ScreenObject
+from textBox import TextBox
 
-font.init()
-font = font.Font(None, 24)
 
-
-class Button:
-    def __init__(self, posX:int, posY:int, width:int, height:int, text:str="", color:tuple=(255, 255, 0)):
+class Button(ScreenObject):
+    def __init__(self, name:str, posX:int, posY:int, width:int, height:int, text:str="", color:tuple=(255, 255, 0), connection:list=[]):
+        self.name = name
         self.posX = posX
         self.posY = posY
         self.width = width
         self.height = height
         self.text = text
         self.color = color
-        self.rect = Rect(posX, posY, width, height)
+        self.connection = connection
+        self.connection.append(self)
+        self.textBox:TextBox
+        if self.text:
+            self.textBox = TextBox(self.name+"1", self.width, self.height, self.text)
 
 
     def draw(self, screen, initX, initY):
         # scale with screen size
-        x = self.posX * (screen.get_width() / initX)
-        y = self.posY * (screen.get_height() / initY)
-        w = self.width * (screen.get_width() / initX)
-        h = self.height * (screen.get_height() / initY)
+        x, y, w, h = self.scale(screen, initX, initY)
         # draw button background
         self.rect = draw.rect(screen, self.color, (x, y, w, h), 0)
         # if text, draw text on top of background
         if self.text:
-            text = font.render(self.text, True, (0, 0, 0))
-            screen.blit(text, text.get_rect(center=(w*1.5, h*1.5)))
+            self.textBox.draw(screen, initX, initY)
 
 
     # call this when the button is pressed
     def onClick(self):
-        print("clicked")
+        # return the connected function call as string, as well as a ref to this button
+        return self.connection
