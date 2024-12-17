@@ -23,7 +23,3 @@ class TextBox(ScreenObject):
         # if text, draw text on top of background
         text = font.render(self.text, True, (0, 0, 0))
         screen.blit(text, (x + 10, y + 10))
-
-
-    def onClick(self):
-        return []
