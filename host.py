@@ -74,10 +74,8 @@ def hostCreateControlPanel():
 
 def hostCreateAnswerSlot(id:str, x:int, y:int, w:int, h:int) -> list:
     background = ColorRect("bg" + id, x + w/3, y, w, h, (120, 120, 120))
-    button = Button("button" + id, x, y, w/3, h, "show", (150, 150, 150), ["hostAnswerButtonClicked"])
-    answer = TextBox("textBox" + id, x + w/3, y, "This is an answer: " + button.name)
-    background.addChild(button)
-    background.addChild(answer)
+    background.addChild(Button("button" + id, x, y, w/3, h, "show", (150, 150, 150), ["hostAnswerButtonClicked"]))
+    background.addChild(TextBox("textBox" + id, x + w/3, y, "This is an answer: "))
     return background
 
 
@@ -91,12 +89,18 @@ def hostConnectionButtonClicked(button:Button):
         button.free()
 
 
+def hostTestButtonClicked(button:Button):
+    server.clientShowSoreboard()
+
+
 # connects button clicks to a function
 connections = {
     "hostAnswerButtonClicked": hostAnswerButtonClicked,
-    "hostConnectionButtonClicked": hostConnectionButtonClicked
+    "hostConnectionButtonClicked": hostConnectionButtonClicked,
+    "hostTestButtonClicked": hostTestButtonClicked
 }
 hostCreateControlPanel()
 root.addChild(TextBox("fps", 10, 10, "0"))
 root.addChild(Button("rpcConnectButton", 1240, 0, 40, 40, "rpc", (100, 100, 100), ["hostConnectionButtonClicked"]))
+root.addChild(Button("testrpcbutton", 1200, 0, 40, 40, "test", (50, 50, 50), ["hostTestButtonClicked"]))
 mainLoop()
