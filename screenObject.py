@@ -12,12 +12,10 @@ class ScreenObject:
         self.parent = None
         self.nodes = []
 
-
     def draw(self, screen, initX:int, initY:int):
         # scale position and size with screen size
         x, y, w, h = self.scale(screen, initX, initY)
     
-
     # scale the position and dimensions based on original positioning and new screen sizes
     def scale(self, screen, initX:int, initY:int):
         x = self.posX * (screen.get_width() / initX)
@@ -26,17 +24,14 @@ class ScreenObject:
         h = self.height * (screen.get_height() / initY)
         return (x, y, w, h)
 
-
     # call this when the object is pressed
     def onClick(self):
-        # return the connected function call as string, as well as a ref to this button
+        # return the connected function call as string, as well as a ref to this object
         return []
-
 
     # called when a node is added to the tree
     def addedToTree(self):
         pass
-
 
     def addChild(self, node):
         self.getChildren().append(node)
