@@ -5,6 +5,7 @@ from rpc import RPCClient
 from button import Button
 from colorRect import ColorRect
 from textBox import TextBox
+from textureRect import TextureRect
 from container import Container
 
 
@@ -18,6 +19,7 @@ monitorSize = (infoObject.current_w, infoObject.current_h)
 # this line will set the window to borderless fullscreen
 # screen = pygame.display.set_mode(monitorSize, pygame.NOFRAME)
 
+# this winow size is the size that all nodes will scale from
 windowSize = (1280, 720)
 screen = pygame.display.set_mode(windowSize, pygame.RESIZABLE)
 pygame.display.set_caption('Halcon Feud')
@@ -104,7 +106,6 @@ def hostCreateControlPanel():
 
 def hostShowRound(round):
     container = root.getChild("scoreboardContainer")
-    print(container)
     for i in range(8):
         slot = container.getChild(str(i))
         print(slot.getChildren())
@@ -142,12 +143,14 @@ connections = {
     "hostConnectionButtonClicked": hostConnectionButtonClicked,
     "hostRoundButtonClicked": hostRoundButtonClicked
 }
+root.addChild(TextureRect("test", 0, 0, 1280, 720, "ff_bg_edited.jpg"))
 # container for scoreboard panel
 root.addChild(Container("scoreboardContainer"))
 # show fps
 root.addChild(TextBox("fps", 10, 10, "0"))
 # rpc connect
 root.addChild(Button("rpcConnectButton", 1240, 0, 40, 40, "rpc", (100, 100, 100), ["hostConnectionButtonClicked"]))
+
 getScoreboardData()
 hostCreateControlPanel()
 mainLoop()
