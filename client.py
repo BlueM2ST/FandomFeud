@@ -53,7 +53,6 @@ def mainLoop():
         pygame.display.flip()
 
 
-
 def clientShowScoreboard():
     print("showing scoreboard")
     x, y, w, h = (320, 100, 300, 50)
@@ -81,7 +80,7 @@ def clientShowAnswer(id:str):
 root.addChild(TextBox("fps", 10, 10, "0"))
 server.registerMethod(clientShowRound)
 server.registerMethod(clientShowAnswer)
-server_thread = Thread(target = server.run, daemon=True)
-server_thread.start()
+serverThread = Thread(target = server.run, daemon=True)
+serverThread.start()
 clientShowScoreboard()
 mainLoop()
