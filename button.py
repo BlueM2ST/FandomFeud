@@ -30,7 +30,7 @@ class Button(ScreenObject):
     # call this when the button is pressed
     def onClick(self):
         # return the connected function call as string, as well as a ref to this button
-        if not self.disabled:
+        if not self.disabled and not self.hidden:
             return self.connection
 
     def setText(self, text):
