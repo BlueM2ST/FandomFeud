@@ -1,6 +1,6 @@
 
 
-from pygame import draw, image, transform
+from pygame import image, transform
 from screenObject import ScreenObject
 
 

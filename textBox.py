@@ -1,5 +1,5 @@
 
-from pygame import Rect, font, draw
+from pygame import font
 from screenObject import ScreenObject
 
 font.init()
