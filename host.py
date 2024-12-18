@@ -88,7 +88,7 @@ def hostCreateControlPanel():
         pos += 110
 
     # answer slots
-    x, y, w, h = (0, 0, 300, 100)
+    x, y = (0, 0)
     for i in range(8):
         if i % 2:
             x = 400
@@ -150,7 +150,7 @@ connections = {
 # background
 root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/ff_bg_edited.jpg"))
 # containers
-root.addChild(Container("scoreboardContainer", 100, 100))
+root.addChild(Container("scoreboardContainer", 100, 0))
 root.addChild(Container("roundTabContainer"))
 # show fps
 root.addChild(TextBox("fps", 10, 10, "0"))
