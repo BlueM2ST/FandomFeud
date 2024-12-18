@@ -5,7 +5,7 @@ from textBox import TextBox
 
 
 class Button(ScreenObject):
-    def __init__(self, name:str, posX:int, posY:int, width:int, height:int, text:str="", color:tuple=(255, 255, 0), connection:list=[]):
+    def __init__(self, name:str, posX:int, posY:int, width:int, height:int, text:str="", color:tuple=(255, 255, 0), connection:list=[], disabled:bool=False):
         self.name = name
         self.posX = posX
         self.posY = posY
@@ -15,6 +15,7 @@ class Button(ScreenObject):
         self.color = color
         self.connection = connection
         self.connection.append(self)
+        self.disabled = disabled
         self.children = []
         self.parent = None
         self.nodes = []
@@ -30,7 +31,8 @@ class Button(ScreenObject):
     # call this when the button is pressed
     def onClick(self):
         # return the connected function call as string, as well as a ref to this button
-        return self.connection
+        if not self.disabled:
+            return self.connection
 
     def setText(self, text):
         self.getChild(self.name + "text").setText(text)
