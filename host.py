@@ -7,6 +7,7 @@ from colorRect import ColorRect
 from textBox import TextBox
 from textureRect import TextureRect
 from container import Container
+from threading import Thread
 
 
 pygame.init()
@@ -35,7 +36,6 @@ currentRound:str = ""
 
 
 def mainLoop():
-    delta:float = 0
     while True:
         # Set the frame rate
         clock.tick(60)
@@ -130,14 +130,16 @@ def hostRoundButtonClicked(button:Button):
     # server.clientShowRound(roundData[button.name])
 
 
-
 def hostAnswerButtonClicked(button:Button):
     print("clicked on " + button.name)
     button.hide()
 
 
 def hostConnectionButtonClicked(button:Button):
-    if server.connect():
+    serverThread = Thread(target = server.connect, daemon=True)
+    serverThread.start()
+    serverThread.join()
+    if server.is_connected():
         button.free()
 
 
