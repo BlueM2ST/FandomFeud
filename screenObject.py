@@ -5,13 +5,13 @@ from vector2d import Vector2D
 
 # base class for all objects that show on the screen
 class ScreenObject:
-    # all nodes need some sort of rect for click detection
-    rect = Rect(0, 0, 0, 0)
-    size = Vector2D((0, 0))
-    def __init__(self, name:str, posX:int, posY:int, width:int, height:int):
+    def __init__(self, name:str, posX:int, posY:int):
         self.name = name
         self.pos = self.toVector((posX, posY))
-        self.relPos = self.toVector((0, 0))
+        self.relPos = Vector2D((0,0))
+        self.size = Vector2D((0,0))
+        self.scaleSize = Vector2D((0,0))
+        self.rect = Rect(0, 0, 0, 0)
         self.hidden = False
         self.children = []
         self.parent = None
@@ -27,8 +27,8 @@ class ScreenObject:
     def scale(self, screen, initX:int, initY:int):
         x = self.relPos.x * (screen.get_width() / initX)
         y = self.relPos.y * (screen.get_height() / initY)
-        w = self.size.x * (screen.get_width() / initX)
-        h = self.size.y * (screen.get_height() / initY)
+        w = self.scaleSize.x = self.size.x * (screen.get_width() / initX)
+        h = self.scaleSize.y = self.size.y * (screen.get_height() / initY)
         return (x, y, w, h)
 
     def toVector(self, vector:tuple):
