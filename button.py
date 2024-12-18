@@ -16,6 +16,7 @@ class Button(ScreenObject):
         self.connection = connection
         self.connection.append(self)
         self.disabled = disabled
+        self.hidden = False
         self.children = []
         self.parent = None
         self.nodes = []
@@ -24,9 +25,7 @@ class Button(ScreenObject):
 
 
     def draw(self, screen, initX:int, initY:int):
-        # draw button background
         self.rect = draw.rect(screen, self.color, (self.scale(screen, initX, initY)), 0)
-
 
     # call this when the button is pressed
     def onClick(self):

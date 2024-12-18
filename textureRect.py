@@ -12,6 +12,7 @@ class TextureRect(ScreenObject):
         self.width = width
         self.height = height
         self.image = image.load(imagePath).convert_alpha()
+        self.hidden = False
         self.children = []
         self.parent = None
         self.nodes = []

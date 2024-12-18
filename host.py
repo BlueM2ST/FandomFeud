@@ -60,7 +60,8 @@ def mainLoop():
                             connections[action[0]](action[1])
         # draw/redraw objects on screen
         for node in sceneNodes:
-            node.draw(screen, windowSize[0], windowSize[1])
+            if not node.hidden:
+                node.draw(screen, windowSize[0], windowSize[1])
         root.getChild("fps").setText(str(int(clock.get_fps())))
         pygame.display.flip()
 
@@ -129,7 +130,7 @@ def hostRoundButtonClicked(button:Button):
 
 def hostAnswerButtonClicked(button:Button):
     print("clicked on " + button.name)
-    button.getParent().free()
+    button.hide()
 
 
 def hostConnectionButtonClicked(button:Button):
@@ -143,6 +144,7 @@ connections = {
     "hostConnectionButtonClicked": hostConnectionButtonClicked,
     "hostRoundButtonClicked": hostRoundButtonClicked
 }
+# background
 root.addChild(TextureRect("test", 0, 0, 1280, 720, "ff_bg_edited.jpg"))
 # container for scoreboard panel
 root.addChild(Container("scoreboardContainer"))

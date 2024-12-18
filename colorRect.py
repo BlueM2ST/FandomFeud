@@ -11,6 +11,7 @@ class ColorRect(ScreenObject):
         self.width = width
         self.height = height
         self.color = color
+        self.hidden = False
         self.children = []
         self.parent = None
         self.nodes = []

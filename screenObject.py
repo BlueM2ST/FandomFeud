@@ -12,6 +12,7 @@ class ScreenObject:
         self.posY = posY
         self.width = width
         self.height = height
+        self.hidden = False
         self.children = []
         self.parent = None
         self.nodes = []
@@ -34,6 +35,12 @@ class ScreenObject:
     def onClick(self):
         # return the connected function call as string, as well as a ref to this object
         return []
+
+    def hide(self):
+        self.hidden = True
+    
+    def show(self):
+        self.hidden = False
 
     # called when a node is added to the tree
     def addedToTree(self):

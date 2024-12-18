@@ -14,6 +14,7 @@ class TextBox(ScreenObject):
         self.width = 0
         self.height = 0
         self.text = text
+        self.hidden = False
         self.children = []
         self.parent = None
         self.nodes = []
