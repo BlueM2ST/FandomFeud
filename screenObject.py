@@ -1,7 +1,11 @@
 
 
+from pygame import Rect
+
 # base class for all objects that show on the screen
 class ScreenObject:
+    # all nodes need some sort of rect for click detection
+    rect = Rect(0, 0, 0, 0)
     def __init__(self, name:str, posX:int, posY:int, width:int, height:int):
         self.name = name
         self.posX = posX
@@ -11,10 +15,12 @@ class ScreenObject:
         self.children = []
         self.parent = None
         self.nodes = []
+    
+    def __repr__(self):
+        return "{} : \"{}\"".format(self.__class__.__name__, self.name)
 
     def draw(self, screen, initX:int, initY:int):
-        # scale position and size with screen size
-        x, y, w, h = self.scale(screen, initX, initY)
+        pass
     
     # scale the position and dimensions based on original positioning and new screen sizes
     def scale(self, screen, initX:int, initY:int):
