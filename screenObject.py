@@ -7,7 +7,7 @@ from vector2d import Vector2D
 class ScreenObject:
     def __init__(self, name:str, posX:int, posY:int):
         self.name = name
-        self.pos = self.toVector((posX, posY))
+        self.pos = Vector2D((posX, posY))
         self.relPos = Vector2D((0,0))
         self.size = Vector2D((0,0))
         self.scaleSize = Vector2D((0,0))
