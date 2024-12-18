@@ -7,13 +7,13 @@ font = font.Font(None, 24)
 
 
 class TextBox(ScreenObject):
-    def __init__(self, name:str, posX:int, posY:int, text:str=""):
+    def __init__(self, name:str, posX:int, posY:int, text:str="", center:bool=True, padding:int=0):
         self.name = name
-        self.posX = posX
-        self.posY = posY
-        self.width = 0
-        self.height = 0
+        self.pos = self.toVector((posX, posY))
+        self.relPos = self.toVector((0, 0))
         self.text = text
+        self.center = center
+        self.padding = padding
         self.hidden = False
         self.children = []
         self.parent = None
@@ -25,7 +25,10 @@ class TextBox(ScreenObject):
         x, y, w, h = self.scale(screen, initX, initY)
         # if text, draw text on top of background
         text = font.render(self.text, True, (0, 0, 0))
-        screen.blit(text, (x + 10, y + 10))
+        textRect = (x, y)
+        if self.center:
+            textRect = text.get_rect(center = (x + self.getParent().size.x /2, y + self.getParent().size.y /2))
+        screen.blit(text, (textRect[0] + self.padding, textRect[1] + self.padding))
     
     def setText(self, text):
         self.text = text
