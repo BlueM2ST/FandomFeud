@@ -26,7 +26,7 @@ pygame.display.set_caption('Halcon Feud')
 
 server = RPCClient('127.0.0.1', 46980)
 
-root = Container("root")
+root = Container("root", 0, 0)
 currentScene:str = "root"
 rootNodes:dict = {"root": root}
 
@@ -78,38 +78,36 @@ def getScoreboardData(filename="scoreboard.txt"):
                 continue
             else:
                 roundData[round].append({"answer": line.split(",")[0], "score": line.split(",")[1].replace(" ", "")})
-    print(roundData)
 
 
 def hostCreateControlPanel():
     # round tabs
     pos = 100
     for round in roundData:
-        root.addChild(Button(round, pos, 50, 100, 40, round, (150, 150, 150), ["hostRoundButtonClicked"]))
+        root.getChild("roundTabContainer").addChild(Button(round, pos, 50, 100, 40, round, (150, 150, 150), ["hostRoundButtonClicked"]))
         pos += 110
 
     # answer slots
-    x, y, w, h = (100, 0, 300, 100)
+    x, y, w, h = (0, 0, 300, 100)
     for i in range(8):
         if i % 2:
-            x = 600
+            x = 400
             id = i + 4 - i/2
         else:
-            x = 100
+            x = 0
             y += 120
             id = i / 2
         id = str(int(id))
-        background = ColorRect(id, x + w/3, y, w, h, (120, 120, 120))
-        background.addChild(Button("button" + id, x, y, w/3, h, "show", (150, 150, 150), ["hostAnswerButtonClicked"]))
-        background.addChild(TextBox("textbox" + id, x + w/3, y, "Round not started"))
+        background = ColorRect(id, x, y, 350, 75, (120, 120, 120))
         root.getChild("scoreboardContainer").addChild(background)
+        background.addChild(Button("button" + id, 0, 0, 100, 75, "None", (150, 150, 150), ["hostAnswerButtonClicked"], disabled=True))
+        background.addChild(TextBox("textbox" + id, 100, 0, "Round not started", center=False, padding=30))
 
 
 def hostShowRound(round):
     container = root.getChild("scoreboardContainer")
     for i in range(8):
         slot = container.getChild(str(i))
-        print(slot.getChildren())
         # if there is an answer in this slot
         if i < len(roundData[round]):
             slot.getChild("button" + str(i)).setText("Show")
@@ -124,6 +122,11 @@ def hostShowRound(round):
 
 def hostRoundButtonClicked(button:Button):
     hostShowRound(button.name)
+    # reset all button colors
+    for tab in root.getChild("roundTabContainer").getChildren():
+        tab.color = (150, 150, 150)
+    # only color the selected button
+    button.color = (100, 200, 200)
     # server.clientShowRound(roundData[button.name])
 
 
@@ -145,9 +148,10 @@ connections = {
     "hostRoundButtonClicked": hostRoundButtonClicked
 }
 # background
-root.addChild(TextureRect("test", 0, 0, 1280, 720, "ff_bg_edited.jpg"))
-# container for scoreboard panel
-root.addChild(Container("scoreboardContainer"))
+root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/ff_bg_edited.jpg"))
+# containers
+root.addChild(Container("scoreboardContainer", 100, 100))
+root.addChild(Container("roundTabContainer"))
 # show fps
 root.addChild(TextBox("fps", 10, 10, "0"))
 # rpc connect
