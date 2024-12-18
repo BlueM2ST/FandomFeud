@@ -5,23 +5,23 @@ from textBox import TextBox
 
 
 class Button(ScreenObject):
-    def __init__(self, name:str, posX:int, posY:int, width:int, height:int, text:str="", color:tuple=(255, 255, 0), connection:list=[], disabled:bool=False):
+    def __init__(self, name:str, posX:int, posY:int, width:int, height:int, text:str="", color:tuple=(255, 255, 0), connection:list=[], disabled:bool=False, centerText:bool=True):
         self.name = name
-        self.posX = posX
-        self.posY = posY
-        self.width = width
-        self.height = height
+        self.pos = self.toVector((posX, posY))
+        self.relPos = self.toVector((0, 0))
+        self.size = self.toVector((width, height))
         self.text = text
         self.color = color
         self.connection = connection
         self.connection.append(self)
         self.disabled = disabled
+        self.centerText = centerText
         self.hidden = False
         self.children = []
         self.parent = None
         self.nodes = []
         if self.text:
-            self.addChild(TextBox(self.name+"text", posX, posY, self.text))
+            self.addChild(TextBox(self.name+"text", 0, 0, self.text, center=centerText))
 
 
     def draw(self, screen, initX:int, initY:int):

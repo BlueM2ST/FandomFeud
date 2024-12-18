@@ -1,17 +1,17 @@
 
 
 from pygame import Rect
+from vector2d import Vector2D
 
 # base class for all objects that show on the screen
 class ScreenObject:
     # all nodes need some sort of rect for click detection
     rect = Rect(0, 0, 0, 0)
+    size = Vector2D((0, 0))
     def __init__(self, name:str, posX:int, posY:int, width:int, height:int):
         self.name = name
-        self.posX = posX
-        self.posY = posY
-        self.width = width
-        self.height = height
+        self.pos = self.toVector((posX, posY))
+        self.relPos = self.toVector((0, 0))
         self.hidden = False
         self.children = []
         self.parent = None
@@ -25,11 +25,14 @@ class ScreenObject:
     
     # scale the position and dimensions based on original positioning and new screen sizes
     def scale(self, screen, initX:int, initY:int):
-        x = self.posX * (screen.get_width() / initX)
-        y = self.posY * (screen.get_height() / initY)
-        w = self.width * (screen.get_width() / initX)
-        h = self.height * (screen.get_height() / initY)
+        x = self.relPos.x * (screen.get_width() / initX)
+        y = self.relPos.y * (screen.get_height() / initY)
+        w = self.size.x * (screen.get_width() / initX)
+        h = self.size.y * (screen.get_height() / initY)
         return (x, y, w, h)
+
+    def toVector(self, vector:tuple):
+        return Vector2D(vector)
 
     # call this when the object is pressed
     def onClick(self):
@@ -49,7 +52,15 @@ class ScreenObject:
     def addChild(self, node):
         self.getChildren().append(node)
         node.parent = self
+        node.setRelativePosition()
         node.addedToTree()
+    
+    # when a node is added as a child, inherit its position
+    def setRelativePosition(self):
+        self.relPos.x = self.getParent().relPos.x + self.pos.x
+        self.relPos.y = self.getParent().relPos.y + self.pos.y
+        for child in self.getAllChilden():
+            child.setRelativePosition()
     
     def getChild(self, name:str):
         for child in self.getChildren():
@@ -71,13 +82,14 @@ class ScreenObject:
         except ValueError:
             print("parent " + self.parent + "has no child " + self.name)
     
+    # get all children recursively
     def getAllChilden(self):
         self.iterTree(self)
         nodes = self.nodes
         self.nodes = []
         return nodes
 
-    # populate an array of all child items recursively
+    # used in getAllChildren() for recursively getting children
     def iterTree(self, fromNode):
         for node in fromNode.getChildren():
             self.nodes.append(node)

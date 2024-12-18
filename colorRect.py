@@ -6,10 +6,9 @@ from screenObject import ScreenObject
 class ColorRect(ScreenObject):
     def __init__(self, name:str, posX:int, posY:int, width:int, height:int, color:tuple):
         self.name = name
-        self.posX = posX
-        self.posY = posY
-        self.width = width
-        self.height = height
+        self.pos = self.toVector((posX, posY))
+        self.relPos = self.toVector((0, 0))
+        self.size = self.toVector((width, height))
         self.color = color
         self.hidden = False
         self.children = []
