@@ -6,15 +6,10 @@ from screenObject import ScreenObject
 
 class TextureRect(ScreenObject):
     def __init__(self, name:str, posX:int, posY:int, width:int, height:int, imagePath:str):
-        self.name = name
-        self.pos = self.toVector((posX, posY))
-        self.relPos = self.toVector((0, 0))
+        super().__init__(name, posX, posY)
         self.size = self.toVector((width, height))
+        self.scaleSize = self.toVector((0, 0))
         self.image = image.load(imagePath).convert_alpha()
-        self.hidden = False
-        self.children = []
-        self.parent = None
-        self.nodes = []
     
     def draw(self, screen, initX, initY):
         x, y, w, h = self.scale(screen, initX, initY)

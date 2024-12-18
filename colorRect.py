@@ -5,15 +5,9 @@ from screenObject import ScreenObject
 
 class ColorRect(ScreenObject):
     def __init__(self, name:str, posX:int, posY:int, width:int, height:int, color:tuple):
-        self.name = name
-        self.pos = self.toVector((posX, posY))
-        self.relPos = self.toVector((0, 0))
+        super().__init__(name, posX, posY)
         self.size = self.toVector((width, height))
         self.color = color
-        self.hidden = False
-        self.children = []
-        self.parent = None
-        self.nodes = []
     
     def draw(self, screen, initX, initY):
         # draw button background
