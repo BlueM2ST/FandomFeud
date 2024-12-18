@@ -4,6 +4,7 @@ from rpc import RPCServer
 from button import Button
 from colorRect import ColorRect
 from textBox import TextBox
+from container import Container
 from threading import Thread
 
 
@@ -24,7 +25,7 @@ pygame.display.set_caption('Halcon Feud')
 server = RPCServer('127.0.0.1', 46980)
 
 
-root = ColorRect("root", 0, 0, windowSize[0], windowSize[1], (255, 255, 255))
+root = Container("root")
 currentScene:str = "root"
 rootNodes = {"root": root}
 
@@ -45,15 +46,31 @@ def mainLoop():
                 pygame.quit()
                 sys.exit()
         # draw/redraw objects on screen
-        for node in rootNodes[currentScene].getAllChilden():
+        for node in rootNodes[currentScene].getAllChilden(): 
             node.draw(screen, windowSize[0], windowSize[1])
         root.getChild("fps").setText(str(int(clock.get_fps())))
         pygame.display.flip()
 
 
 
-def clientShowSoreboard():
+def clientShowScoreboard():
     print("showing scoreboard")
+    x, y, w, h = (320, 100, 300, 50)
+    for i in range(8):
+        if i % 2:
+            x = 660
+            id = i + 4 - i/2
+        else:
+            x = 320
+            y += 60
+            id = i / 2
+        background = ColorRect(str(id), x, y, w, h, (120, 120, 120))
+        background.addChild(TextBox("textBox" + str(id), x + w/3, y, "Round not started"))
+        root.addChild(background)
+
+
+def clientShowRound(round):
+    pass
 
 
 def clientShowAnswer(id:str):
@@ -61,8 +78,9 @@ def clientShowAnswer(id:str):
 
 
 root.addChild(TextBox("fps", 10, 10, "0"))
-server.registerMethod(clientShowSoreboard)
+server.registerMethod(clientShowRound)
 server.registerMethod(clientShowAnswer)
 server_thread = Thread(target = server.run, daemon=True)
 server_thread.start()
+clientShowScoreboard()
 mainLoop()
