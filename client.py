@@ -4,6 +4,7 @@ from rpc import RPCServer
 from button import Button
 from colorRect import ColorRect
 from textBox import TextBox
+from textureRect import TextureRect
 from container import Container
 from threading import Thread
 
