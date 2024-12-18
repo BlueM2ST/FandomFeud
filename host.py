@@ -5,6 +5,7 @@ from rpc import RPCClient
 from button import Button
 from colorRect import ColorRect
 from textBox import TextBox
+from container import Container
 
 
 pygame.init()
@@ -23,9 +24,12 @@ pygame.display.set_caption('Halcon Feud')
 
 server = RPCClient('127.0.0.1', 46980)
 
-root = ColorRect("root", 0, 0, windowSize[0], windowSize[1], (255, 255, 255))
+root = Container("root")
 currentScene:str = "root"
-rootNodes = {"root": root}
+rootNodes:dict = {"root": root}
+
+roundData:dict = {}
+currentRound:str = ""
 
 
 def mainLoop():
@@ -59,7 +63,29 @@ def mainLoop():
         pygame.display.flip()
 
 
+def getScoreboardData(filename="scoreboard.txt"):
+    with open(filename, "r", encoding="utf-8") as file:
+        round = ""
+        for line in file.readlines():
+            line = line.strip()
+            if line.startswith("#"):
+                round = line.replace("#", "")
+                roundData[round] = []
+            elif not line:
+                continue
+            else:
+                roundData[round].append({"answer": line.split(",")[0], "score": line.split(",")[1].replace(" ", "")})
+    print(roundData)
+
+
 def hostCreateControlPanel():
+    # round tabs
+    pos = 100
+    for round in roundData:
+        root.addChild(Button(round, pos, 50, 100, 40, round, (150, 150, 150), ["hostRoundButtonClicked"]))
+        pos += 110
+
+    # answer slots
     x, y, w, h = (100, 0, 300, 100)
     for i in range(8):
         if i % 2:
@@ -69,14 +95,35 @@ def hostCreateControlPanel():
             x = 100
             y += 120
             id = i / 2
-        root.addChild(hostCreateAnswerSlot(str(int(id)), x, y, w, h))
+        id = str(int(id))
+        background = ColorRect(id, x + w/3, y, w, h, (120, 120, 120))
+        background.addChild(Button("button" + id, x, y, w/3, h, "show", (150, 150, 150), ["hostAnswerButtonClicked"]))
+        background.addChild(TextBox("textbox" + id, x + w/3, y, "Round not started"))
+        root.getChild("scoreboardContainer").addChild(background)
 
 
-def hostCreateAnswerSlot(id:str, x:int, y:int, w:int, h:int) -> list:
-    background = ColorRect("bg" + id, x + w/3, y, w, h, (120, 120, 120))
-    background.addChild(Button("button" + id, x, y, w/3, h, "show", (150, 150, 150), ["hostAnswerButtonClicked"]))
-    background.addChild(TextBox("textBox" + id, x + w/3, y, "This is an answer: "))
-    return background
+def hostShowRound(round):
+    container = root.getChild("scoreboardContainer")
+    print(container)
+    for i in range(8):
+        slot = container.getChild(str(i))
+        print(slot.getChildren())
+        # if there is an answer in this slot
+        if i < len(roundData[round]):
+            slot.getChild("button" + str(i)).setText("Show")
+            slot.getChild("button" + str(i)).disabled = False
+            slot.getChild("textbox" + str(i)).setText(roundData[round][i]["answer"])
+        # if not, set it to blank
+        else:
+            slot.getChild("button" + str(i)).setText("")
+            slot.getChild("button" + str(i)).disabled = True
+            slot.getChild("textbox" + str(i)).setText("")
+
+
+def hostRoundButtonClicked(button:Button):
+    hostShowRound(button.name)
+    # server.clientShowRound(roundData[button.name])
+
 
 
 def hostAnswerButtonClicked(button:Button):
@@ -89,18 +136,18 @@ def hostConnectionButtonClicked(button:Button):
         button.free()
 
 
-def hostTestButtonClicked(button:Button):
-    server.clientShowSoreboard()
-
-
 # connects button clicks to a function
 connections = {
     "hostAnswerButtonClicked": hostAnswerButtonClicked,
     "hostConnectionButtonClicked": hostConnectionButtonClicked,
-    "hostTestButtonClicked": hostTestButtonClicked
+    "hostRoundButtonClicked": hostRoundButtonClicked
 }
-hostCreateControlPanel()
+# container for scoreboard panel
+root.addChild(Container("scoreboardContainer"))
+# show fps
 root.addChild(TextBox("fps", 10, 10, "0"))
+# rpc connect
 root.addChild(Button("rpcConnectButton", 1240, 0, 40, 40, "rpc", (100, 100, 100), ["hostConnectionButtonClicked"]))
-root.addChild(Button("testrpcbutton", 1200, 0, 40, 40, "test", (50, 50, 50), ["hostTestButtonClicked"]))
+getScoreboardData()
+hostCreateControlPanel()
 mainLoop()
