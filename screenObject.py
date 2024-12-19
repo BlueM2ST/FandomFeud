@@ -51,12 +51,16 @@ class ScreenObject:
     def addedToTree(self):
         pass
 
-    def addChild(self, node):
-        self.getChildren().append(node)
-        node.parent = self
-        node.setRelativePosition()
-        node.updateAllChildren()
-        node.addedToTree()
+    def addChild(self, child):
+        if child.parent:
+            print("Warning: {} is already a child of {}".format(child, child.parent))
+            return
+        self.getChildren().append(child)
+        child.parent = self
+        child.setRelativePosition()
+        child.updateAllChildren()
+        child.addedToTree()
+        return child
     
     def updateAllChildren(self):
         self.allChildren = []
