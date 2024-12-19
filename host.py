@@ -105,7 +105,7 @@ def hostCreateControlPanel():
     # X buttons
 
     # editable text
-    root.getChild("scoreboardContainer").addChild(TextEdit("textedittext", 100, 650, 200, 100))
+    root.getChild("scoreboardContainer").addChild(TextEdit("textedit", 100, 600, 200, 100, (100, 100, 100), (150, 150, 150), centerText=True))
 
 
 def hostShowRound(round):
