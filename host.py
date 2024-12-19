@@ -5,6 +5,7 @@ from rpc import RPCClient
 from button import Button
 from colorRect import ColorRect
 from textBox import TextBox
+from textEdit import TextEdit
 from textureRect import TextureRect
 from container import Container
 from threading import Thread
@@ -38,28 +39,25 @@ currentRound:str = ""
 def mainLoop():
     while True:
         # Set the frame rate
-        clock.tick(60)
-        delta = clock.get_fps()/1000
+        clock.tick(120)
+        # delta = clock.get_fps()/1000
 
         # Fill the display with color
         screen.fill((255, 255, 255))
         sceneNodes = rootNodes[currentScene].getAllChilden()
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                # quit the game
-                server.disconnect()
-                pygame.quit()
-                sys.exit()
-            # handle mouse clicks
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                for node in sceneNodes:
-                    if node.rect.collidepoint(event.pos):
-                        action = node.onClick()
-                        if action:
-                            connections[action[0]](action[1])
-        # draw/redraw objects on screen
+        # this will force only one event per frame, some events may be lost (unlikely in this case)
+        event = pygame.event.poll()
+        if event.type == pygame.QUIT:
+            # quit the game
+            server.disconnect()
+            pygame.quit()
+            sys.exit()
         for node in sceneNodes:
+            action = node.handleEvent(event)
+            if action:
+                connections[action[0]](action[1])
+            # draw/redraw objects on screen
             if not node.hidden:
                 node.draw(screen, windowSize[0], windowSize[1])
         root.getChild("fps").setText(str(int(clock.get_fps())))
@@ -86,6 +84,7 @@ def hostCreateControlPanel():
     for round in roundData:
         root.getChild("roundTabContainer").addChild(Button(round, pos, 50, 100, 40, round, (150, 150, 150), ["hostRoundButtonClicked"]))
         pos += 110
+    root.getChild("roundTabContainer").addChild(Button("fastmoney", pos, 50, 100, 40, "fast money", (150, 150, 150), ["hostFastMoneyButtonClicked"]))
 
     # answer slots
     x, y = (0, 0)
@@ -99,9 +98,14 @@ def hostCreateControlPanel():
             id = i / 2
         id = str(int(id))
         background = ColorRect(id, x, y, 350, 75, (120, 120, 120))
-        root.getChild("scoreboardContainer").addChild(background)
         background.addChild(Button("button" + id, 0, 0, 100, 75, "None", (150, 150, 150), ["hostAnswerButtonClicked"], disabled=True))
         background.addChild(TextBox("textbox" + id, 100, 0, "Round not started", center=False, padding=30))
+        root.getChild("scoreboardContainer").addChild(background)
+    
+    # X buttons
+
+    # editable text
+    root.getChild("scoreboardContainer").addChild(TextEdit("textedittext", 100, 650, 200, 100))
 
 
 def hostShowRound(round):
@@ -120,6 +124,10 @@ def hostShowRound(round):
             slot.getChild("textbox" + str(i)).setText("")
 
 
+def hostFastMoneyButtonClicked(button:Button):
+    pass
+
+
 def hostRoundButtonClicked(button:Button):
     hostShowRound(button.name)
     # reset all button colors
@@ -127,7 +135,8 @@ def hostRoundButtonClicked(button:Button):
         tab.color = (150, 150, 150)
     # only color the selected button
     button.color = (100, 200, 200)
-    # server.clientShowRound(roundData[button.name])
+    if server.is_connected():
+        server.clientShowRound(roundData[button.name])
 
 
 def hostAnswerButtonClicked(button:Button):
@@ -143,17 +152,25 @@ def hostConnectionButtonClicked(button:Button):
         button.free()
 
 
+def hostXButtonClicked(button:Button):
+    if server.is_connected():
+        server.clientShowX(roundData[button.name])
+
+
 # connects button clicks to a function
 connections = {
     "hostAnswerButtonClicked": hostAnswerButtonClicked,
     "hostConnectionButtonClicked": hostConnectionButtonClicked,
-    "hostRoundButtonClicked": hostRoundButtonClicked
+    "hostRoundButtonClicked": hostRoundButtonClicked,
+    "hostXButtonClicked": hostXButtonClicked,
+    "hostFastMoneyButtonClicked": hostFastMoneyButtonClicked
 }
 # background
 root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/ff_bg_edited.jpg"))
 # containers
 root.addChild(Container("scoreboardContainer", 100, 0))
 root.addChild(Container("roundTabContainer"))
+root.addChild(Container("fastMoneyContainer"))
 # show fps
 root.addChild(TextBox("fps", 10, 10, "0"))
 # rpc connect
