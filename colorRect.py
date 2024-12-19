@@ -10,7 +10,6 @@ class ColorRect(ScreenObject):
         self.color = color
     
     def draw(self, screen, initX, initY):
-        # draw button background
         self.rect = draw.rect(screen, self.color, (self.scale(screen, initX, initY)), 0)
     
         
