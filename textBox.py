@@ -26,10 +26,10 @@ class TextBox(ScreenObject):
     
     def setText(self, text):
         self.text = text
-        self.renderText(self.text)
+        self.renderedText = self.renderText(self.text)
     
     def getText(self):
         return self.text
 
     def renderText(self, text):
-        self.renderedText = font.render(self.text, True, (0, 0, 0))
+        return font.render(self.text, True, (0, 0, 0))
