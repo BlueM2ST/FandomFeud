@@ -24,7 +24,7 @@ class ScreenObject:
         pass
 
     def handleEvent(self, event):
-        pass
+        return None
     
     # scale the position and dimensions based on original positioning and new screen sizes
     def scale(self, screen, initX:int, initY:int):
@@ -36,11 +36,6 @@ class ScreenObject:
 
     def toVector(self, vector:tuple):
         return Vector2D(vector)
-
-    # call this when the object is pressed
-    def onClick(self):
-        # return the connected function call as string, as well as a ref to this object
-        return []
 
     def hide(self):
         self.hidden = True
