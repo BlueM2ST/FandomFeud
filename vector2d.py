@@ -1,6 +1,7 @@
 
+from pygame.math import Vector2
 
-class Vector2D():
+class Vector2D(Vector2):
     def __init__(self, vector:tuple):
         self.vector = vector
         self.x = vector[0]
