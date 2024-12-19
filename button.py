@@ -1,5 +1,5 @@
 
-from pygame import draw
+from pygame import draw, MOUSEBUTTONDOWN
 from screenObject import ScreenObject
 from textBox import TextBox
 
@@ -21,11 +21,11 @@ class Button(ScreenObject):
     def draw(self, screen, initX:int, initY:int):
         self.rect = draw.rect(screen, self.color, (self.scale(screen, initX, initY)), 0)
 
-    # call this when the button is pressed
-    def onClick(self):
-        # return the connected function call as string, as well as a ref to this button
-        if not self.disabled and not self.hidden:
-            return self.connection
+    def handleEvent(self, event):
+        if event.type == MOUSEBUTTONDOWN and event.button == 1:
+            if self.rect.collidepoint(event.pos):
+                if not self.disabled and not self.hidden:
+                    return self.connection
 
     def setText(self, text):
         self.getChild(self.name + "text").setText(text)
