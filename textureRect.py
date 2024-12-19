@@ -8,7 +8,6 @@ class TextureRect(ScreenObject):
     def __init__(self, name:str, posX:int, posY:int, width:int, height:int, imagePath:str):
         super().__init__(name, posX, posY)
         self.size = self.toVector((width, height))
-        self.scaleSize = self.toVector((0, 0))
         self.image = image.load(imagePath).convert_alpha()
     
     def draw(self, screen, initX, initY):
