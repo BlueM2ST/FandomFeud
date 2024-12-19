@@ -41,9 +41,13 @@ class ScreenObject:
 
     def hide(self):
         self.hidden = True
+        for child in self.getChildren():
+            child.hide()
     
     def show(self):
         self.hidden = False
+        for child in self.getChildren():
+            child.show()
 
     # called when a node is added to the tree
     def addedToTree(self):
@@ -59,7 +63,7 @@ class ScreenObject:
     def setRelativePosition(self):
         self.relPos.x = self.getParent().relPos.x + self.pos.x
         self.relPos.y = self.getParent().relPos.y + self.pos.y
-        for child in self.getAllChilden():
+        for child in self.getChildren():
             child.setRelativePosition()
     
     def getChild(self, name:str):
