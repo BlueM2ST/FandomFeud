@@ -44,7 +44,7 @@ def mainLoop():
 
         # Fill the display with color
         screen.fill((255, 255, 255))
-        sceneNodes = rootNodes[currentScene].getAllChilden()
+        sceneNodes = rootNodes[currentScene].allChildren
 
         # this will force only one event per frame, some events may be lost (unlikely in this case)
         event = pygame.event.poll()
