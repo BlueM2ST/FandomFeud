@@ -12,4 +12,5 @@ class ColorRect(ScreenObject):
     def draw(self, screen, initX, initY):
         self.rect = draw.rect(screen, self.color, (self.scale(screen, initX, initY)), 0)
     
-        
+    def setColor(self, color):
+        self.color = color
