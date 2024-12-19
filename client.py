@@ -6,7 +6,9 @@ from colorRect import ColorRect
 from textBox import TextBox
 from textureRect import TextureRect
 from container import Container
+from audioPlayer import AudioPlayer
 from threading import Thread
+from time import sleep
 
 
 pygame.init()
@@ -55,18 +57,21 @@ def mainLoop():
 
 def clientShowScoreboard():
     print("showing scoreboard")
-    x, y, w, h = (320, 100, 300, 50)
+    x, y = (220, 180)
     for i in range(8):
         if i % 2:
-            x = 660
+            x = 560
             id = i + 4 - i/2
         else:
-            x = 320
+            x = 220
             y += 60
             id = i / 2
-        background = ColorRect(str(id), x, y, w, h, (120, 120, 120))
-        background.addChild(TextBox("textBox" + str(id), x + w/3, y, "Round not started"))
-        root.addChild(background)
+        background = ColorRect(str(id), x, y, 300, 50, (120, 120, 120))
+        background.addChild(TextBox("textBox" + str(id), 0, 0, "Round not started"))
+        root.getChild("scoreboardContainer").addChild(background)
+    
+    # X icons
+    root.addChild(TextureRect("smallX", 540, 260, 200, 200, "img/wrong.png"))
 
 
 def clientShowRound(round):
@@ -77,9 +82,20 @@ def clientShowAnswer(id:str):
     pass
 
 
+def clientShowX(name:str):
+    root.getChild(name).show()
+    # TODO: test if this is what we actually want to use here
+    sleep(3)
+    root.getChild(name).hide()
+
+
+root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/ff_bg_edited.jpg"))
+root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/board.png"))
 root.addChild(TextBox("fps", 10, 10, "0"))
+root.addChild(Container("scoreboardContainer", 100, 0))
 server.registerMethod(clientShowRound)
 server.registerMethod(clientShowAnswer)
+server.registerMethod(clientShowX)
 serverThread = Thread(target = server.run, daemon=True)
 serverThread.start()
 clientShowScoreboard()
