@@ -10,7 +10,7 @@ class TextBox(ScreenObject):
     def __init__(self, name:str, posX:int, posY:int, text:str="", center:bool=True, padding:int=0):
         super().__init__(name, posX, posY)
         self.text = text
-        self.renderedText = self.renderText(self.text)
+        self.renderedText = self.renderText()
         self.center = center
         self.padding = padding
 
@@ -26,10 +26,10 @@ class TextBox(ScreenObject):
     
     def setText(self, text):
         self.text = text
-        self.renderedText = self.renderText(self.text)
+        self.renderedText = self.renderText()
     
     def getText(self):
         return self.text
 
-    def renderText(self, text):
+    def renderText(self):
         return font.render(self.text, True, (0, 0, 0))
