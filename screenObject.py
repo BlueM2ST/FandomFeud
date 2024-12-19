@@ -15,7 +15,7 @@ class ScreenObject:
         self.hidden = False
         self.children = []
         self.parent = None
-        self.nodes = []
+        self.allChildren = []
     
     def __repr__(self):
         return "{} : \"{}\"".format(self.__class__.__name__, self.name)
@@ -55,7 +55,14 @@ class ScreenObject:
         self.getChildren().append(node)
         node.parent = self
         node.setRelativePosition()
+        node.updateAllChildren()
         node.addedToTree()
+    
+    def updateAllChildren(self):
+        self.allChildren = []
+        self.allChildren = self.getAllChilden()
+        if self.parent:
+            self.getParent().updateAllChildren()
     
     # when a node is added as a child, inherit its position
     def setRelativePosition(self):
@@ -87,13 +94,11 @@ class ScreenObject:
     # get all children recursively
     def getAllChilden(self):
         self.iterTree(self)
-        nodes = self.nodes
-        self.nodes = []
-        return nodes
+        return self.allChildren
 
     # used in getAllChildren() for recursively getting children
     def iterTree(self, fromNode):
         for node in fromNode.getChildren():
-            self.nodes.append(node)
+            self.allChildren.append(node)
             if node.getChildren():
                 self.iterTree(node)
