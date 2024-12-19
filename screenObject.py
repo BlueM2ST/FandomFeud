@@ -22,6 +22,9 @@ class ScreenObject:
 
     def draw(self, screen, initX:int, initY:int):
         pass
+
+    def handleEvent(self, event):
+        pass
     
     # scale the position and dimensions based on original positioning and new screen sizes
     def scale(self, screen, initX:int, initY:int):
