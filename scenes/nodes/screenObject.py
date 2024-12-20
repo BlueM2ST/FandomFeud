@@ -1,7 +1,7 @@
 
 
 from pygame import Rect
-from vector2d import Vector2D
+from .vector2d import Vector2D
 
 # base class for all objects that show on the screen
 class ScreenObject:

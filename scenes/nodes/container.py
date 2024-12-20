@@ -1,6 +1,5 @@
 
-from screenObject import ScreenObject
-
+from .screenObject import ScreenObject
 
 class Container(ScreenObject):
     def __init__(self, name:str, posX:int=0, posY:int=0):

@@ -1,7 +1,7 @@
 
 
 from pygame import MOUSEBUTTONDOWN, KEYDOWN, K_BACKSPACE
-from button import Button
+from .button import Button
 
 
 class TextEdit(Button):
@@ -14,7 +14,6 @@ class TextEdit(Button):
     def handleEvent(self, event):
         if event.type == MOUSEBUTTONDOWN:
             if self.rect.collidepoint(event.pos):
-                print("active")
                 self.active = True
                 self.color = self.colorActive
             else:
@@ -26,7 +25,6 @@ class TextEdit(Button):
                     self.textBox.text = self.textBox.text[:-1]
                 else:
                     self.textBox.text += event.unicode
-                print(self.textBox.text)
                 self.textBox.renderedText = self.textBox.renderText()
             
             

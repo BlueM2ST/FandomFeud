@@ -1,6 +1,6 @@
 
 from pygame import font, time
-from screenObject import ScreenObject
+from .screenObject import ScreenObject
 
 font.init()
 font = font.Font(None, 24)
