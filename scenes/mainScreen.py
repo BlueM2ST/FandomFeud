@@ -1,8 +1,6 @@
 
-from .nodes.button import Button
 from .nodes.colorRect import ColorRect
 from .nodes.textBox import TextBox
-from .nodes.textEdit import TextEdit
 from .nodes.textureRect import TextureRect
 from .nodes.container import Container
 from .nodes.scene import Scene
@@ -44,7 +42,7 @@ class MainScreen(Scene):
             self.root.getChild("scoreboardContainer").addChild(background)
         
         # X icons
-        self.root.addChild(TextureRect("smallX", 540, 260, 200, 200, "img/wrong.png"))
+        self.root.addChild(TextureRect("smallX", 540, 260, 200, 200, "img/wrong.png")).hide()
 
 
     def showRound(self, round):
@@ -56,7 +54,9 @@ class MainScreen(Scene):
 
 
     def showX(self, name:str):
-        self.root.getChild(name).show()
-        # TODO: test if this is what we actually want to use here
-        sleep(3)
-        self.root.getChild(name).hide()
+        xNode = self.root.getChild(name)
+        if xNode.hidden:
+            self.root.getChild(name).show()
+            # this will block the process, but should be fine
+            sleep(2)
+            self.root.getChild(name).hide()
