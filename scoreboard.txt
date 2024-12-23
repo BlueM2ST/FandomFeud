@@ -12,3 +12,4 @@ second 2 answer, 80
 third  2 answer, 70
 fourth 2 answer, 60
 fifth 2 answer, 50
+sixth answer, 30
