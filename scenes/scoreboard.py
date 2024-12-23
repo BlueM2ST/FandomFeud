@@ -61,14 +61,30 @@ class ScoreBoard(Scene):
                 id = i / 2
             id = str(int(id))
             background = ColorRect(id, x, y, 350, 75, (120, 120, 120))
-            background.addChild(Button("button" + id, 0, 0, 100, 75, "None", (150, 150, 150), self.answerButtonClicked, disabled=True))
-            background.addChild(TextBox("textbox" + id, 100, 0, "Round not started", center=False, padding=30))
+            # show/hide button
+            background.addChild(Button("showButton", 0, 0, 60, 75, "None", (150, 150, 150), self.answerButtonClicked, disabled=True))
+            # answer text
+            background.addChild(TextBox("textbox", 0, 0, "Round not started", center=True))
+            # points text
+            background.addChild(Button("pointsDisplay", 300, 0, 50, 75, "0", (150, 150, 150)))
+
             self.root.getChild("scoreboardContainer").addChild(background)
         
         # X buttons
+        self.root.getChild("scoreboardContainer").addChild(Button("smallX", 0, 640, 100, 50, "Small X", (150, 150, 150), self.xButtonClicked))
+        self.root.getChild("scoreboardContainer").addChild(Button("oneX", 120, 640, 100, 50, "One X", (150, 150, 150), self.xButtonClicked))
 
-        # editable text
-        self.root.getChild("scoreboardContainer").addChild(TextEdit("textedit", 100, 600, 200, 100, (100, 100, 100), (150, 150, 150), centerText=True))
+        # show score for team and rounds
+        self.root.getChild("scoreboardContainer").addChild(TextEdit("leftTeamScore", 800, 120, 100, 100, (100, 100, 100), (150, 150, 150), text="0", centerText=True))
+        self.root.getChild("scoreboardContainer").addChild(TextEdit("currentRoundScore", 920, 120, 100, 100, (100, 100, 100), (150, 150, 150), text="0", centerText=True))
+        self.root.getChild("scoreboardContainer").addChild(TextEdit("rightTeamScore", 1040, 120, 100, 100, (100, 100, 100), (150, 150, 150), text="0", centerText=True))
+
+        # buttons to assign score for teams
+        self.root.getChild("scoreboardContainer").addChild(Button("left", 800, 240, 100, 50, "Assign Left", (150, 150, 150), self.assignPoints))
+        self.root.getChild("scoreboardContainer").addChild(Button("right", 1040, 240, 100, 50, "Assign Right", (150, 150, 150), self.assignPoints))
+
+        # button to update points on client
+        self.root.getChild("scoreboardContainer").addChild(Button("update", 920, 240, 100, 75, "Update", (150, 150, 150), self.updatePointsOnClient))
 
 
     def showRound(self, round):
@@ -77,14 +93,16 @@ class ScoreBoard(Scene):
             slot = container.getChild(str(i))
             # if there is an answer in this slot
             if i < len(self.roundData[round]):
-                slot.getChild("button" + str(i)).setText("Show")
-                slot.getChild("button" + str(i)).disabled = False
-                slot.getChild("textbox" + str(i)).setText(self.roundData[round][i]["answer"])
+                slot.getChild("showButton").setText("Show")
+                slot.getChild("showButton").disabled = False
+                slot.getChild("textbox").setText(self.roundData[round][i]["answer"])
+                slot.getChild("pointsDisplay").setText(self.roundData[round][i]["score"])
             # if not, set it to blank
             else:
-                slot.getChild("button" + str(i)).setText("")
-                slot.getChild("button" + str(i)).disabled = True
-                slot.getChild("textbox" + str(i)).setText("")
+                slot.getChild("showButton").setText("")
+                slot.getChild("showButton").disabled = True
+                slot.getChild("textbox").setText("")
+                slot.getChild("pointsDisplay").setText("")
 
 
     def fastMoneyButtonClicked(self, button:Button):
@@ -104,8 +122,12 @@ class ScoreBoard(Scene):
 
 
     def answerButtonClicked(self, button:Button):
-        print("clicked on " + button.name)
-        button.hide()
+        print("clicked on " + button.getParent().name)
+        if button.getText() == "Show":
+            button.setText("Hide")
+            currentScoreDisplay = self.root.getChild("scoreboardContainer").getChild("currentRoundScore")
+            pointsDisplay = button.getParent().getChild("pointsDisplay")
+            currentScoreDisplay.setText(str(int(currentScoreDisplay.getText()) + int(pointsDisplay.getText())))
 
 
     def connectionButtonClicked(self, button:Button):
@@ -118,7 +140,20 @@ class ScoreBoard(Scene):
 
     def xButtonClicked(self, button:Button):
         if self.server.is_connected():
-            self.server.showX(self.roundData[button.name])
+            self.server.showX(button.name)
+    
+
+    def assignPoints(self, button:Button):
+        currentScoreDisplay = button.getParent().getChild("currentRoundScore")
+        if button.name == "left":
+            scoreDisplay = button.getParent().getChild("leftTeamScore")
+        else:
+            scoreDisplay = button.getParent().getChild("rightTeamScore")
+        scoreDisplay.setText(str(int(currentScoreDisplay.getText()) + int(scoreDisplay.getText())))
+        currentScoreDisplay.setText("0")
+    
+    def updatePointsOnClient(self, button:Button):
+        pass
 
 
 
