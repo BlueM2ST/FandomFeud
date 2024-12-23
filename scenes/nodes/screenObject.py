@@ -93,7 +93,7 @@ class ScreenObject:
         try:
             self.parent.getChildren().remove(self)
         except ValueError:
-            print("parent " + self.parent + "has no child " + self.name)
+            print("parent " + str(self.parent) + " has no child " + self.name)
     
     # get all children recursively
     def getAllChilden(self):
