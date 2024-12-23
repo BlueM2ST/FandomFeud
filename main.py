@@ -38,6 +38,7 @@ root = Container("root", 0, 0)
 def mainLoop():
     fps:int = 0
     frame:int = 0
+    fpsNode = root.getChild("fps")
     while True:
         # delta = clock.get_fps()/1000
 
@@ -60,7 +61,7 @@ def mainLoop():
         frame += 1
         fps += clock.get_fps()
         if frame == TARGETFPS:
-            root.getChild("fps").setText(str(int(fps/TARGETFPS)))
+            fpsNode.setText(str(int(fps/TARGETFPS)))
             frame = 0
             fps = 0
         pygame.display.flip()
