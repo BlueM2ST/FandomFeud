@@ -1,16 +1,15 @@
 
 
-from pygame import Rect
-from .vector2d import Vector2D
+from pygame import Rect, Vector2
 
 # base class for all objects that show on the screen
 class ScreenObject:
     def __init__(self, name:str, posX:int, posY:int):
         self.name = name
-        self.pos = Vector2D((posX, posY))
-        self.relPos = Vector2D((0,0))
-        self.size = Vector2D((0,0))
-        self.scaleSize = Vector2D((0,0))
+        self.pos =  Vector2(posX, posY)
+        self.relPos = Vector2(0, 0)
+        self.size = Vector2(0,0)
+        self.scaleSize = Vector2(0,0)
         self.rect = Rect(0, 0, 0, 0)
         self.hidden = False
         self.children = []
@@ -35,7 +34,7 @@ class ScreenObject:
         return (x, y, w, h)
 
     def toVector(self, vector:tuple):
-        return Vector2D(vector)
+        return Vector2(vector)
 
     def hide(self):
         self.hidden = True
