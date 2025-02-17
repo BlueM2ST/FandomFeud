@@ -4,7 +4,7 @@ from .nodes.colorRect import ColorRect
 from .nodes.textBox import TextBox
 from .nodes.textEdit import TextEdit
 from .nodes.textureRect import TextureRect
-from .nodes.container import Container
+from .nodes.node import Node
 from .nodes.scene import Scene
 from threading import Thread
 
@@ -38,8 +38,8 @@ class ScoreBoard(Scene):
         # background
         self.root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/ff_bg_edited.jpg"))
         # containers
-        self.root.addChild(Container("scoreboardContainer", 100, 0))
-        self.root.addChild(Container("roundTabContainer"))
+        self.root.addChild(Node("scoreboardContainer", 100, 0))
+        self.root.addChild(Node("roundTabContainer"))
         # rpc connect button
         self.root.addChild(Button("rpcConnectButton", 1240, 0, 40, 40, "rpc", (100, 100, 100), self.connectionButtonClicked))
         # round tabs

@@ -2,7 +2,7 @@
 import pygame
 import sys
 from rpc import RPCClient, RPCServer
-from scenes.nodes.container import Container
+from scenes.nodes.node import Node
 from scenes.nodes.textBox import TextBox
 from scenes import scoreboard, mainScreen
 
@@ -32,7 +32,7 @@ else:
     server = RPCClient('127.0.0.1', 46980)
     initScene = scoreboard.ScoreBoard(server)
 
-root = Container("root", 0, 0)
+root = Node("root", 0, 0)
 
 
 def mainLoop():
