@@ -1,6 +1,6 @@
 
 from pygame import draw
-from .screenObject import ScreenObject
+from .node import ScreenObject
 
 
 class ColorRect(ScreenObject):

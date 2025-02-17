@@ -1,6 +1,6 @@
 
 from pygame import mixer
-from .screenObject import ScreenObject
+from .node import ScreenObject
 
 mixer.init()
 

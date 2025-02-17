@@ -1,7 +1,7 @@
 
 
 from pygame import image, transform
-from .screenObject import ScreenObject
+from .node import ScreenObject
 
 
 class TextureRect(ScreenObject):
