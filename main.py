@@ -12,7 +12,7 @@ pygame.init()
 clock = pygame.time.Clock()
 TARGETFPS = 120
 
-# this line will set the window to borderless fullscreen
+# these lines will set the window to borderless fullscreen
 # infoObject = pygame.display.Info()
 # screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.NOFRAME)
 
