@@ -1,12 +1,12 @@
 
 
-from pygame import MOUSEBUTTONDOWN, KEYDOWN, K_BACKSPACE
+from pygame import MOUSEBUTTONDOWN, KEYDOWN, K_BACKSPACE, Vector2
 from .button import Button
 
 
 class TextEdit(Button):
-    def __init__(self, name:str, posX:int, posY:int, width:int, height:int, colorInactive:tuple, colorActive:tuple, text:str="", connection:list=[], disabled:bool=False, centerText:bool=False):
-        super().__init__(name, posX, posY, width, height, text, colorInactive, connection, disabled, centerText)
+    def __init__(self, name:str, pos:Vector2, size:Vector2, colorInactive:tuple, colorActive:tuple, text:str="", connection:list=[], disabled:bool=False, centerText:bool=False):
+        super().__init__(name, pos, size, text, colorInactive, connection, disabled, centerText)
         self.colorInactive = colorInactive
         self.colorActive = colorActive
         self.active = False

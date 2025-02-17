@@ -1,13 +1,13 @@
 
 from pygame import draw, Vector2
-from .node import ScreenObject
+from .node import Node
 
 
-class ColorRect(ScreenObject):
-    color = (0,0,0)
-    def __init__(self, name:str, posX:int, posY:int, width:int, height:int):
-        super().__init__(name, posX, posY)
-        self.size = Vector2(width, height)
+class ColorRect(Node):
+    def __init__(self, name:str, pos:Vector2, size:Vector2, color=(255, 255, 0)):
+        super().__init__(name, pos)
+        self.size = size
+        self.color = color
     
     def draw(self, screen, initX, initY):
         self.rect = draw.rect(screen, self.color, (self.scale(screen, initX, initY)), 0)

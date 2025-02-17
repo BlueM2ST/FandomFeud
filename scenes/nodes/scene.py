@@ -1,10 +1,11 @@
 
+from pygame import Vector2
 from .node import Node
 
 class Scene():
     def __init__(self, server=None):
         self.server = server
-        self.root = Node(self.__class__.__name__, 0, 0)
+        self.root = Node(self.__class__.__name__, Vector2(0,0))
     
     def __repr__(self):
         return self.__class__.__name__

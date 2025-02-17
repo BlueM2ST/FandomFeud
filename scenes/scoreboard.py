@@ -1,4 +1,5 @@
 
+from pygame import Vector2
 from .nodes.button import Button
 from .nodes.colorRect import ColorRect
 from .nodes.textBox import TextBox
@@ -36,18 +37,18 @@ class ScoreBoard(Scene):
 
     def createControlPanel(self):
         # background
-        self.root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/ff_bg_edited.jpg"))
+        self.root.addChild(TextureRect("test", Vector2(0,0), Vector2(1280, 720), "img/ff_bg_edited.jpg"))
         # containers
-        self.root.addChild(Node("scoreboardContainer", 100, 0))
+        self.root.addChild(Node("scoreboardContainer", Vector2(100, 0)))
         self.root.addChild(Node("roundTabContainer"))
         # rpc connect button
-        self.root.addChild(Button("rpcConnectButton", 1240, 0, 40, 40, "rpc", (100, 100, 100), self.connectionButtonClicked))
+        self.root.addChild(Button("rpcConnectButton", Vector2(1240, 0), Vector2(40, 40), "rpc", (100, 100, 100), self.connectionButtonClicked))
         # round tabs
         pos = 100
         for round in self.roundData:
-            self.root.getChild("roundTabContainer").addChild(Button(round, pos, 50, 100, 40, round, (150, 150, 150), self.roundButtonClicked))
+            self.root.getChild("roundTabContainer").addChild(Button(round, Vector2(pos, 50), Vector2(100, 40), round, (150, 150, 150), self.roundButtonClicked))
             pos += 110
-        self.root.getChild("roundTabContainer").addChild(Button("fastmoney", pos, 50, 100, 40, "fast money", (150, 150, 150), self.fastMoneyButtonClicked))
+        self.root.getChild("roundTabContainer").addChild(Button("fastmoney", Vector2(pos, 50), Vector2(100, 40), "fast money", (150, 150, 150), self.fastMoneyButtonClicked))
 
         # answer slots
         x, y = (0, 0)
@@ -60,31 +61,31 @@ class ScoreBoard(Scene):
                 y += 120
                 id = i / 2
             id = str(int(id))
-            background = ColorRect(id, x, y, 350, 75, (120, 120, 120))
+            background = ColorRect(id, Vector2(x, y), Vector2(350, 75), (120, 120, 120))
             # show/hide button
-            background.addChild(Button("showButton", 0, 0, 60, 75, "None", (150, 150, 150), self.answerButtonClicked, disabled=True))
+            background.addChild(Button("showButton", Vector2(0,0), Vector2(60, 75), "None", (150, 150, 150), self.answerButtonClicked, disabled=True))
             # answer text
-            background.addChild(TextBox("textbox", 0, 0, "Round not started", center=True))
+            background.addChild(TextBox("textbox", Vector2(0, 0), "Round not started", center=True))
             # points text
-            background.addChild(Button("pointsDisplay", 300, 0, 50, 75, "0", (150, 150, 150)))
+            background.addChild(Button("pointsDisplay", Vector2(300, 0), Vector2(50, 75), "0", (150, 150, 150)))
 
             self.root.getChild("scoreboardContainer").addChild(background)
         
         # X buttons
-        self.root.getChild("scoreboardContainer").addChild(Button("smallX", 0, 640, 100, 50, "Small X", (150, 150, 150), self.xButtonClicked))
-        self.root.getChild("scoreboardContainer").addChild(Button("oneX", 120, 640, 100, 50, "One X", (150, 150, 150), self.xButtonClicked))
+        self.root.getChild("scoreboardContainer").addChild(Button("smallX", Vector2(0, 640), Vector2(100, 50), "Small X", (150, 150, 150), self.xButtonClicked))
+        self.root.getChild("scoreboardContainer").addChild(Button("oneX", Vector2(120, 640), Vector2(100, 50), "One X", (150, 150, 150), self.xButtonClicked))
 
         # show score for team and rounds
-        self.root.getChild("scoreboardContainer").addChild(TextEdit("leftTeamScore", 800, 120, 100, 100, (100, 100, 100), (150, 150, 150), text="0", centerText=True))
-        self.root.getChild("scoreboardContainer").addChild(TextEdit("currentRoundScore", 920, 120, 100, 100, (100, 100, 100), (150, 150, 150), text="0", centerText=True))
-        self.root.getChild("scoreboardContainer").addChild(TextEdit("rightTeamScore", 1040, 120, 100, 100, (100, 100, 100), (150, 150, 150), text="0", centerText=True))
+        self.root.getChild("scoreboardContainer").addChild(TextEdit("leftTeamScore", Vector2(800, 120), Vector2(100, 100), (100, 100, 100), (150, 150, 150), text="0"))
+        self.root.getChild("scoreboardContainer").addChild(TextEdit("currentRoundScore", Vector2(920, 120), Vector2(100, 100), (100, 100, 100), (150, 150, 150), text="0"))
+        self.root.getChild("scoreboardContainer").addChild(TextEdit("rightTeamScore", Vector2(1040, 120), Vector2(100, 100), (100, 100, 100), (150, 150, 150), text="0"))
 
         # buttons to assign score for teams
-        self.root.getChild("scoreboardContainer").addChild(Button("left", 800, 240, 100, 50, "Assign Left", (150, 150, 150), self.assignPoints))
-        self.root.getChild("scoreboardContainer").addChild(Button("right", 1040, 240, 100, 50, "Assign Right", (150, 150, 150), self.assignPoints))
+        self.root.getChild("scoreboardContainer").addChild(Button("left", Vector2(800, 240), Vector2(100, 50), "Assign Left", (150, 150, 150), self.assignPoints))
+        self.root.getChild("scoreboardContainer").addChild(Button("right", Vector2(1040, 240), Vector2(100, 50), "Assign Right", (150, 150, 150), self.assignPoints))
 
         # button to update points on client
-        self.root.getChild("scoreboardContainer").addChild(Button("update", 920, 240, 100, 75, "Update", (150, 150, 150), self.updatePointsOnClient))
+        self.root.getChild("scoreboardContainer").addChild(Button("update", Vector2(920, 240), Vector2(100, 75), "Update", (150, 150, 150), self.updatePointsOnClient))
 
 
     def showRound(self, round):

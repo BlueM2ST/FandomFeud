@@ -1,13 +1,13 @@
 
 
-from pygame import image, transform
-from .node import ScreenObject
+from pygame import image, transform, Vector2
+from .node import Node
 
 
-class TextureRect(ScreenObject):
-    def __init__(self, name:str, posX:int, posY:int, width:int, height:int, imagePath:str):
-        super().__init__(name, posX, posY)
-        self.size = self.toVector((width, height))
+class TextureRect(Node):
+    def __init__(self, name:str, pos:Vector2, size:Vector2, imagePath:str):
+        super().__init__(name, pos)
+        self.size = size
         self.image = image.load(imagePath).convert_alpha()
     
     def draw(self, screen, initX, initY):

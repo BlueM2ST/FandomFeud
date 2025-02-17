@@ -32,7 +32,7 @@ else:
     server = RPCClient('127.0.0.1', 46980)
     initScene = scoreboard.ScoreBoard(server)
 
-root = Node("root", 0, 0)
+root = Node("root", pygame.Vector2(0,0))
 
 
 def mainLoop():
@@ -73,6 +73,6 @@ def mainLoop():
 initScene.create()
 root.addChild(initScene.getRoot())
 # show fps
-root.addChild(TextBox("fps", 10, 10, "0"))
+root.addChild(TextBox("fps", pygame.Vector2(10, 10), "0"))
 
 mainLoop()

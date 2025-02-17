@@ -1,18 +1,18 @@
 
-from pygame import font, time
-from .node import ScreenObject
+from pygame import font, Vector2
+from .node import Node
 
 font.init()
 font = font.Font(None, 24)
 
 
-class TextBox(ScreenObject):
-    def __init__(self, name:str, posX:int, posY:int, text:str="", center:bool=True, padding:int=0):
-        super().__init__(name, posX, posY)
+class TextBox(Node):
+    def __init__(self, name:str, pos:Vector2, text:str="", center:bool=True, padding:int=0):
+        super().__init__(name, pos)
         self.text = text
-        self.renderedText = self.renderText()
         self.center = center
         self.padding = padding
+        self.renderedText = self.renderText()
 
 
     def draw(self, screen, initX:int, initY:int):

@@ -1,16 +1,16 @@
 
-from pygame import MOUSEBUTTONDOWN
+from pygame import MOUSEBUTTONDOWN, Vector2
 from .colorRect import ColorRect
 from .textBox import TextBox
 
 
 class Button(ColorRect):
-    def __init__(self, name:str, posX:int, posY:int, width:int, height:int, text:str="", color:tuple=(255, 255, 0), onClick=None, disabled:bool=False, centerText:bool=True):
-        super().__init__(name, posX, posY, width, height, color)
+    def __init__(self, name:str, pos:Vector2, size:Vector2, text:str="", color:tuple=(255, 255, 0), onClick=None, disabled:bool=False, centerText:bool=True):
+        super().__init__(name, pos, size, color)
         self.onClick = onClick
         self.disabled = disabled
         self.centerText = centerText
-        self.textBox = self.addChild(TextBox("textbox", 0, 0, text, center=centerText))
+        self.textBox = self.addChild(TextBox("textbox", Vector2(0, 0), text, center=centerText))
 
     def handleEvent(self, event):
         if event.type == MOUSEBUTTONDOWN and event.button == 1:

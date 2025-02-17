@@ -2,7 +2,7 @@
 from .nodes.colorRect import ColorRect
 from .nodes.textBox import TextBox
 from .nodes.textureRect import TextureRect
-from .nodes.container import Container
+from .nodes.node import Node
 from .nodes.scene import Scene
 from threading import Thread
 from time import sleep
@@ -26,7 +26,7 @@ class MainScreen(Scene):
     def createScoreboard(self):
         self.root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/ff_bg_edited.jpg"))
         self.root.addChild(TextureRect("test", 0, 0, 1280, 720, "img/board.png"))
-        self.root.addChild(Container("scoreboardContainer", 100, 0))
+        self.root.addChild(Node("scoreboardContainer", 100, 0))
 
         x, y = (220, 180)
         for i in range(8):

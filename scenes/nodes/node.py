@@ -3,10 +3,10 @@
 from pygame import Rect, Vector2
 
 # base class for all objects that show on the screen
-class ScreenObject:
-    def __init__(self, name:str, posX:int, posY:int):
+class Node:
+    def __init__(self, name:str, position:Vector2=Vector2(0,0)):
         self.name = name
-        self.pos =  Vector2(posX, posY)
+        self.pos =  position
         self.relPos = Vector2(0, 0)
         self.size = Vector2(0,0)
         self.scaleSize = Vector2(0,0)
@@ -32,9 +32,6 @@ class ScreenObject:
         w = self.scaleSize.x = self.size.x * (screen.get_width() / initX)
         h = self.scaleSize.y = self.size.y * (screen.get_height() / initY)
         return (x, y, w, h)
-
-    def toVector(self, vector:tuple):
-        return Vector2(vector)
 
     def hide(self):
         self.hidden = True
